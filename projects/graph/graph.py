@@ -162,8 +162,41 @@ class Graph:
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
+
         """
-        pass  # TODO
+        # TODO
+        s = Stack()
+
+        visited = set()
+
+        s.push([starting_vertex])
+
+        while s.size() > 0:
+
+            path = s.pop()
+
+            vertex = path[-1]
+
+            if vertex not in visited:
+                visited.add(vertex)
+
+            if vertex == destination_vertex:
+                return path
+
+            for neighbor in self.vertices[vertex]:
+
+                 #create a copy of path array
+                 path_add = path.copy()
+
+                 #add the vertexs to the back of array
+                 path_add.append(neighbor)
+
+                 #add path_add to queue to loop through again
+                 s.push(path_add)
+
+
+
+
 
 
 
@@ -235,7 +268,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
