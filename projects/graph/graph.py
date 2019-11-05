@@ -117,6 +117,44 @@ class Graph:
         breath-first order.
         """
         # TODO
+        #Created an empty Queue
+        q = Queue()
+
+        #Put an array with Starting Vertex in the front of the Queue
+        q.enqueue([starting_vertex])
+
+        #created a set to check for visited nodes and called it visited
+        visited = set()
+
+        #loop through queue as long as q's size is greater then 0
+        while q.size() > 0:
+
+            #Pull the array out of queue and calling it 'path'
+            path = q.dequeue()
+
+            #Grabbing the last index of the array to check when array becomes larger then 1
+            vertex = path[-1]
+
+            #Checking if last index called "vertex" has been visited
+            if vertex not in visited:
+                visited.add(vertex)
+
+            #Checks to see if the vertex has hit its Target.
+            if vertex == destination_vertex:
+                #if so then return the array of vertices
+                return path
+
+            # loop through connecting nodes
+            for neighbor in self.vertices[vertex]:
+
+                 #create a copy of path array
+                 path_add = path.copy()
+
+                 #add the vertexs to the back of array
+                 path_add.append(neighbor)
+
+                 #add path_add to queue to loop through again
+                 q.enqueue(path_add)
 
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -191,13 +229,13 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft_recursive(1)
+    # graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
