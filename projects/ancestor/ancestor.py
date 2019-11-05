@@ -37,7 +37,35 @@ def earliest_ancestor(ancestors, starting_node):
         #create thy edges from thy child to thy parent vertex/node
         graph.add_edge(i[1],i[0])
 
-    print(graph.vertices)
+    q = Queue()
+    visited = set()
+
+    q.enqueue([starting_node])
+
+    while q.size() > 0:
+
+        path = q.dequeue()
+
+        vertex = path[-1]
+
+        if vertex not in visited:
+            visited.add(vertex)
+
+        for neighbor in graph.vertices[vertex]:
+            path_add = path.copy()
+            path_add.append(neighbor)
+            q.enqueue(path_add)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
