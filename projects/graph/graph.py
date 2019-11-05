@@ -86,10 +86,12 @@ class Graph:
             visited = set()
 
         visited.add(starting_vertex)
-        print(visited)
+        print(starting_vertex)
 
-        for next in self.vertices[starting_vertex] - visited:
-            self.dft_recursive(next, visited)
+        for next in self.vertices[starting_vertex]:
+
+            if next not in visited:
+                self.dft_recursive(next,visited)
 
 
         # v =set()
@@ -262,7 +264,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft_recursive(1)
+    graph.dft_recursive(1)
 
     '''
     Valid BFS path:
