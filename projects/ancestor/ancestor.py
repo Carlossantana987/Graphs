@@ -38,7 +38,11 @@ def earliest_ancestor(ancestors, starting_node):
         graph.add_edge(i[1],i[0])
 
     q = Queue()
+
     visited = set()
+
+    longest_path = 1
+    parent_end = -1
 
     q.enqueue([starting_node])
 
@@ -48,13 +52,19 @@ def earliest_ancestor(ancestors, starting_node):
 
         vertex = path[-1]
 
-        if vertex not in visited:
+        if len(path) >= longest_path and vertex < parent_end or len(path) > longest_path:
+            parent_end = vertex
             visited.add(vertex)
 
+
+
         for neighbor in graph.vertices[vertex]:
-            path_add = path.copy()
-            path_add.append(neighbor)
-            q.enqueue(path_add)
+                path_add = path.copy()
+                path_add.append(neighbor)
+                q.enqueue(path_add)
+
+    return parent_end
+
 
 
 
