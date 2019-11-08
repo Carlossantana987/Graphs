@@ -8,15 +8,34 @@ class World:
         self.rooms = {}
         self.roomGrid = []
         self.gridSize = 0
+
+
+
     def loadGraph(self, roomGraph):
+
+        #declares a variable with number of rooms(9)
         numRooms = len(roomGraph)
+
+        #allocates the memory
         rooms = [None] * numRooms
+
+        #sets gridSize to 1
         gridSize = 1
+
+        #loops through all the rooms (9)
         for i in range(0, numRooms):
+
+            #declares x as x coorodinates
             x = roomGraph[i][0][0]
+
+            #declares gridSize as number of rooms(9)
             gridSize = max(gridSize, roomGraph[i][0][0], roomGraph[i][0][1])
+
+
             self.rooms[i] = Room(f"Room {i}", f"({roomGraph[i][0][0]},{roomGraph[i][0][1]})",i, roomGraph[i][0][0], roomGraph[i][0][1])
+
         self.roomGrid = []
+
         gridSize += 1
         self.gridSize = gridSize
         for i in range(0, gridSize):
@@ -33,6 +52,11 @@ class World:
             if 'w' in roomGraph[roomID][1]:
                 self.rooms[roomID].connectRooms('w', self.rooms[roomGraph[roomID][1]['w']])
         self.startingRoom = self.rooms[0]
+
+
+
+
+
 
     def printRooms(self):
         rotatedRoomGrid = []
