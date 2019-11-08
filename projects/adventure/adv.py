@@ -29,7 +29,7 @@ traversalPath = []
 graph = {}
 
 
-def opposite_direction(direction):
+def reverse_direction(direction):
     if direction == "n":
         return "s"
     elif direction == "s":
@@ -46,21 +46,33 @@ q = Queue()
 
 q.enqueue([world.startingRoom])
 
-# while q.size() > 0:
-#
-#     path = q.dequeue()
-#     print(path)
-#     vertex = path[-1]
-#
-#     if vertex not in visited:
-#         visited.add(vertex)
-#
-#     for edges in player.currentRoom.getExits():
-#         new_path = path.copy()
-#         new_path.append(edges)
-#         q.enqueue(new_path)
+def bft(graph, starting_room):
+    q = Queue()
+
+    visited = set()
+
+    q.enqueue([starting_room])
+
+    while q.size() > 0:
+
+        path = q.dequeue()
+
+        current_room = path[-1]
+
+        if current_room not in visited:
+            visited.add(current_room)
+            for room in graph[current_room]:
+                if graph[current_room][room] == "?":
+                    return path
+
+            for room_exit in graph[current_room]:
+                next_room = graph[current_room][room_exit]
+                path_copy = path.copy()
+                path_copy.append(next_room)
+                q.enqueue(path_copy)
 
 
+#while graph is smaller than 500
 while len(graph) < len(roomGraph):
 
     currentRoom = player.currentRoom.id
@@ -94,16 +106,23 @@ while len(graph) < len(roomGraph):
 
                 for path in player.currentRoom.getExits():
 
-                    graph[currentRoom][exit] = "?"
+                    graph[currentRoom][path] = "?"
 
-        graph[currentRoom][new_path] = new_path
+        graph[currentRoom][reverse_direction(new_path)] = currentRoom
 
         graph[new_path] = currentRoom
 
         currentRoom = new_path
 
 
-
+    paths = bft(graph, currentRoom)
+    if paths is not None:
+        for room_number in paths:
+            for room in graph[currentRoom]:
+                if graph[currentRoom][room] == room_number:
+                    traversalPath.append(room)
+                    player.travel(room)
+    currentRoom = player.currentRoom.id
 
 # TRAVERSAL TEST
 visited_rooms = set()
