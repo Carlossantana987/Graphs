@@ -26,36 +26,81 @@ player = Player("Name", world.startingRoom)
 # Fill this out
 traversalPath = []
 
+graph = {}
+
+
+def opposite_direction(direction):
+    if direction == "n":
+        return "s"
+    elif direction == "s":
+        return "n"
+    elif direction == "w":
+        return "e"
+    elif direction == "e":
+        return "w"
+
+
+
 visited = set()
 q = Queue()
 
 q.enqueue([world.startingRoom])
 
-while q.size() > 0:
-
-    path = q.dequeue()
-    print(path)
-    vertex = path[-1]
-
-    if vertex not in visited:
-        visited.add(vertex)
-
-    for edges in player.currentRoom.getExits():
-        new_path = path.copy()
-        new_path.append(edges)
-        q.enqueue(new_path)
-
-
+# while q.size() > 0:
+#
+#     path = q.dequeue()
+#     print(path)
+#     vertex = path[-1]
+#
+#     if vertex not in visited:
+#         visited.add(vertex)
+#
+#     for edges in player.currentRoom.getExits():
+#         new_path = path.copy()
+#         new_path.append(edges)
+#         q.enqueue(new_path)
 
 
+while len(graph) < len(roomGraph):
 
+    currentRoom = player.currentRoom.id
 
+    if currentRoom not in graph:
 
+        graph[currentRoom] = {}
 
+        for exit in player.currentRoom.getExits():
 
+            graph[currentRoom][exit] = "?"
 
+    for path in graph[currentRoom]:
 
+        if path not in graph[currentRoom]:
+            break
 
+        if graph[currentRoom][path] == "?":
+
+            new_path = path
+
+        if new_path is not None:
+
+            traversalPath.append(new_path)
+
+            player.travel(new_path)
+
+            if currentRoom not in graph:
+
+                graph[currentRoom] = {}
+
+                for path in player.currentRoom.getExits():
+
+                    graph[currentRoom][exit] = "?"
+
+        graph[currentRoom][new_path] = new_path
+
+        graph[new_path] = currentRoom
+
+        currentRoom = new_path
 
 
 
